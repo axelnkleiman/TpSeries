@@ -1,0 +1,33 @@
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+  text-align: center;
+  
+}
+#cards{
+  margin-top: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 20px 60px 0px 20px;
+  background-color: black;
+}
+
+footer {
+  position: fixed; 
+  bottom: 0; 
+  margin: 10px 0px 20px 0px;
+}
+h1{
+  color: white;
+}

@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Netflix";
+}
+
+<img src='@Url.Content("~/img/netflix.png")' width ='200px' height = '75px'>
+<h1>TP XX - Index</h1>
+<div id="cards">
+@foreach(var i in ViewBag.ListaSeries){
+<div class="card" style="width: 18rem;">
+  <img src="@i.ImagenSerie" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">@i.Nombre</h5>
+    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="ListarTemporadas(@i.IdSerie)" class="btn btn-primary btn-warning">Temporadas</a>
+    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="ListarActores(@i.IdSerie)" class="btn btn-primary btn-success">Actores</a>
+    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="MasInfo(@i.IdSerie)" class="btn btn-primary">Mas info</a>
+  </div>
+</div>
+}
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="InfoSerie">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+function ListarTemporadas(idSe){
+    $.ajax({
+        type:"POST",
+        dataType:"JSON",
+        url:'/Home/ListarTemporadas',
+        data: {IdSerie : idSe},
+        success:
+            function(response)
+            {
+                let titulos =[];
+                response.forEach(i => {
+                    console.log(i);
+                    titulos.push(i.tituloTemporada)
+                    titulos.push("<br>")
+                });
+                console.log(titulos)
+                $("#InfoSerie").html(titulos)
+                
+            },
+          
+    })
+}
+function ListarActores(idSe){
+    $.ajax({
+        type:"POST",
+        dataType:"JSON",
+        url:'/Home/ListarActores',
+        data: {IdSerie : idSe},
+        success:
+            function(response)
+            {
+                let actores =[];
+                response.forEach(i => {
+                    console.log(i);
+                    actores.push(i.nombre)
+                    actores.push("<br>")
+                });
+                $("#InfoSerie").html(actores)    
+                
+            },
+          
+    })
+}
+function MasInfo(idSe){
+    $.ajax({
+        type:"POST",
+        dataType:"text",
+        url:'/Home/GetSinopsis',
+        data: {IdSerie : idSe},
+        success:
+            function(response)
+            {
+              console.log("hola")
+                $("#InfoSerie").html(response)
+                
+            },
+          
+    })
+}
+</script>
